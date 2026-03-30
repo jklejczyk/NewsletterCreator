@@ -1,0 +1,67 @@
+services:
+  backend:
+    build: ./backend
+    ports:
+      - "8082:8000"
+    volumes:
+      - ./backend:/var/www
+      - /var/www/vendor
+      - ./backend/.env.docker:/var/www/.env
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+
+  queue:
+    build: ./backend
+    command: php artisan queue:listen --tries=3 --timeout=60
+    volumes:
+      - ./backend:/var/www
+      - /var/www/vendor
+      - ./backend/.env.docker:/var/www/.env
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+
+  frontend:
+    build: ./frontend
+    ports:
+      - "5173:5173"
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+
+  postgres:
+    image: postgres:17-alpine
+    ports:
+      - "5433:5432"
+    environment:
+      POSTGRES_DB: newsletter
+      POSTGRES_USER: newsletter
+      POSTGRES_PASSWORD: secret
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U newsletter"]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "6380:6379"
+    volumes:
+      - redis_data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+
+volumes:
+  postgres_data:
+  redis_data:
