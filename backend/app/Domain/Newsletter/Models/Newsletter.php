@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Newsletter extends Model
 {
+    /** @use HasFactory<\Database\Factories\NewsletterFactory> */
     use HasFactory;
 
     protected $table = 'newsletters';
@@ -19,6 +20,7 @@ class Newsletter extends Model
         'status' => NewsletterStatus::class,
     ];
 
+    /** @return HasMany<NewsletterSend, $this> */
     public function sends(): HasMany
     {
         return $this->hasMany(NewsletterSend::class);

@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 
 class Subscriber extends Model
 {
+    /** @use HasFactory<\Database\Factories\SubscriberFactory> */
     use HasFactory;
 
     protected $table = 'subscribers';
@@ -21,11 +22,13 @@ class Subscriber extends Model
         'confirmed_at' => 'datetime',
     ];
 
+    /** @return HasMany<NewsletterSend, $this> */
     public function sends(): HasMany
     {
         return $this->hasMany(NewsletterSend::class);
     }
 
+    /** @return HasManyThrough<Newsletter, NewsletterSend, $this> */
     public function newsletters(): HasManyThrough
     {
         return $this->hasManyThrough(Newsletter::class, NewsletterSend::class);

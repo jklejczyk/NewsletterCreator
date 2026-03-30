@@ -8,17 +8,20 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class NewsletterSend extends Model
 {
+    /** @use HasFactory<\Database\Factories\NewsletterSendFactory> */
     use HasFactory;
 
     protected $table = 'newsletter_sends';
 
     protected $fillable = ['newsletter_id', 'subscriber_id', 'sent_at', 'opened_at'];
 
+    /** @return BelongsTo<Newsletter, $this> */
     public function newsletter(): BelongsTo
     {
         return $this->belongsTo(Newsletter::class);
     }
 
+    /** @return BelongsTo<Subscriber, $this> */
     public function subscriber(): BelongsTo
     {
         return $this->belongsTo(Subscriber::class);
