@@ -13,6 +13,10 @@ inputs:
     description: The coverage driver to use.
     required: false
     default: none
+  working-directory:
+    description: The directory where composer.json is located.
+    required: false
+    default: 'backend'
 
 runs:
   using: composite
@@ -51,6 +55,7 @@ runs:
       id: composer-cache-dir
       run: echo dir=$(composer config cache-files-dir) >> $GITHUB_OUTPUT
       shell: bash
+      working-directory: ${{ inputs.working-directory }}
 
     - name: Cache dependencies
       uses: actions/cache@v4
