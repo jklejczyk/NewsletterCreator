@@ -35,4 +35,12 @@ return [
         ],
     ],
 
+    'newsapi' => [
+        'key' => env('NEWSAPI_KEY'),
+    ],
+
+    'rss' => [
+        'feeds' => explode(',', env('RSS_FEEDS', '')),
+    ],
+
 ];
