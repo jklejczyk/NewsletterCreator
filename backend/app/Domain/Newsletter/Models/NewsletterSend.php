@@ -2,13 +2,14 @@
 
 namespace App\Domain\Newsletter\Models;
 
+use Database\Factories\NewsletterSendFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class NewsletterSend extends Model
 {
-    /** @use HasFactory<\Database\Factories\NewsletterSendFactory> */
+    /** @use HasFactory<NewsletterSendFactory> */
     use HasFactory;
 
     protected $table = 'newsletter_sends';

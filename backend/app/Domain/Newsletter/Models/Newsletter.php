@@ -3,13 +3,14 @@
 namespace App\Domain\Newsletter\Models;
 
 use App\Domain\Newsletter\Enums\NewsletterStatus;
+use Database\Factories\NewsletterFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Newsletter extends Model
 {
-    /** @use HasFactory<\Database\Factories\NewsletterFactory> */
+    /** @use HasFactory<NewsletterFactory> */
     use HasFactory;
 
     protected $table = 'newsletters';
