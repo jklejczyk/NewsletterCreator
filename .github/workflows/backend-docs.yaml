@@ -64,16 +64,12 @@ jobs:
         run: php artisan migrate --force
 
       - name: Export Documentation
-        run: php artisan scramble:export
-
-      - name: Move Documentation
-        run: cp api.json docs/api.json
-        shell: bash
+        run: php artisan scramble:export --path=docs/api.json
 
       - name: Set Path To Pages Deploy
         uses: actions/upload-pages-artifact@v4
         with:
-          path: docs
+          path: backend/docs
 
       - name: Deploy Pages
         uses: actions/deploy-pages@v4
