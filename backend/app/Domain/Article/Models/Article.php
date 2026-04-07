@@ -4,12 +4,13 @@ namespace App\Domain\Article\Models;
 
 use App\Domain\Article\Enums\ArticleCategory;
 use App\Domain\Article\Enums\ArticleSource;
+use Database\Factories\ArticleFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Article extends Model
 {
-    /** @use HasFactory<\Database\Factories\ArticleFactory> */
+    /** @use HasFactory<ArticleFactory> */
     use HasFactory;
 
     protected $table = 'articles';
