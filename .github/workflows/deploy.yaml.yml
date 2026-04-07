@@ -1,0 +1,27 @@
+name: Deploy
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Execute Remote SSH Commands
+        uses: appleboy/ssh-action@v1
+        with:
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.SSH_USERNAME }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          script: |
+            cd /var/www/newslettercreator/backend
+            php artisan down
+            git -C /var/www/newslettercreator pull origin main
+            composer install --no-dev --no-interaction
+            php artisan migrate --force
+            php artisan config:cache
+            php artisan view:cache
+            php artisan route:cache
+            php artisan up
