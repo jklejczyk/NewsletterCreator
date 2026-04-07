@@ -63,7 +63,7 @@ jobs:
         run: php artisan migrate --force
 
       - name: Run PHPStan
-        run: composer analyse
+        run: ./vendor/bin/phpstan analyse
 
       - name: Run Tests with Coverage
         run: php artisan test --compact --coverage-clover=coverage.xml
