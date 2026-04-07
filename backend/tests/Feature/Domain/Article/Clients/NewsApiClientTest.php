@@ -2,6 +2,7 @@
 
 use App\Domain\Article\Clients\NewsApiClient;
 use App\Domain\Article\Enums\ArticleSource;
+use Illuminate\Http\Client\RequestException;
 use Illuminate\Support\Facades\Http;
 
 it('fetches articles from news api', function () {
@@ -15,8 +16,7 @@ it('fetches articles from news api', function () {
                     'content' => 'Test content',
                     'url' => 'https://example.com/article',
                     'publishedAt' => '2026-04-07T10:00:00Z',
-                    'source' => ['id' => 'test', 'name' =>
-                        'Test'],
+                    'source' => ['id' => 'test', 'name' => 'Test'],
                     'author' => 'Test Author',
                     'description' => 'Test description',
                     'urlToImage' => null,
@@ -39,7 +39,7 @@ it('throws exception on failed response', function () {
 
     $client = new NewsApiClient('fake-key');
     $client->fetch();
-})->throws(Illuminate\Http\Client\RequestException::class);
+})->throws(RequestException::class);
 
 it('throws exception on when api key is invalid', function () {
     Http::fake(['https://newsapi.org/v2/top-headlines*' => Http::response([
@@ -49,4 +49,4 @@ it('throws exception on when api key is invalid', function () {
 
     $client = new NewsApiClient('fake-key');
     $client->fetch();
-})->throws(Illuminate\Http\Client\RequestException::class);
+})->throws(RequestException::class);

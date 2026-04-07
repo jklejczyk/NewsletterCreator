@@ -21,7 +21,7 @@ class AppServiceProvider extends ServiceProvider
 
         $this->app->bind(RssFeedIoClient::class, function ($app) {
             return new RssFeedIoClient(
-                new FeedIo(new Client(new HttplugClient())),
+                new FeedIo(new Client(new HttplugClient)),
                 config('services.rss.feeds'),
             );
         });

@@ -10,9 +10,7 @@ class RssFeedIoClient implements ArticleSourceInterface
 {
     /** @param array<int, string> $feeds */
     public function __construct(private FeedIo $feedIo,
-                                private array  $feeds)
-    {
-    }
+        private array $feeds) {}
 
     /** @return array<int, array<string, string|ArticleSource>> */
     public function fetch(): array
@@ -36,4 +34,3 @@ class RssFeedIoClient implements ArticleSourceInterface
         return $articles;
     }
 }
-
