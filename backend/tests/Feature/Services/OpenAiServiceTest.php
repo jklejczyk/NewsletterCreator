@@ -2,6 +2,7 @@
 
 use App\Domain\Article\Enums\ArticleCategory;
 use App\Services\OpenAiService;
+use Illuminate\Http\Client\RequestException;
 use Illuminate\Support\Facades\Http;
 
 beforeEach(function () {
@@ -40,7 +41,7 @@ it('throws exception when summarize request fails', function () {
     ]);
 
     $this->service->summarize('Some content');
-})->throws(Illuminate\Http\Client\RequestException::class);
+})->throws(RequestException::class);
 
 it('categorizes article as technology', function () {
     Http::fake([
@@ -81,4 +82,4 @@ it('throws exception on invalid api key', function () {
     ]);
 
     $this->service->summarize('Some content');
-})->throws(Illuminate\Http\Client\RequestException::class);
+})->throws(RequestException::class);

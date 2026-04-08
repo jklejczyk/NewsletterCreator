@@ -9,10 +9,8 @@ use Illuminate\Support\Facades\Http;
 class OpenAiService implements AiClientInterface
 {
     public function __construct(private string $apiKey,
-                                private string $model = 'gpt-4o-mini',
-    )
-    {
-    }
+        private string $model = 'gpt-4o-mini',
+    ) {}
 
     public function summarize(string $content): string
     {
@@ -34,7 +32,7 @@ class OpenAiService implements AiClientInterface
 
         $content = $response->json('choices.0.message.content');
 
-        if (!is_string($content)) {
+        if (! is_string($content)) {
             throw new \RuntimeException('OpenAI returned unexpected response format');
         }
 
