@@ -2,8 +2,6 @@
 
 namespace App\Console\Commands;
 
-use App\Domain\Article\Clients\NewsApiClient;
-use App\Domain\Article\Clients\RssFeedIoClient;
 use App\Jobs\ImportArticlesJob;
 use Illuminate\Console\Command;
 
@@ -13,10 +11,10 @@ class ImportArticlesCommand extends Command
 
     protected $description = 'Import articles from all sources';
 
-    public function handle(NewsApiClient $newsApiClient, RssFeedIoClient $rssFeedIoClient): void
+    public function handle(): void
     {
-        ImportArticlesJob::dispatch([$newsApiClient, $rssFeedIoClient]);
+        ImportArticlesJob::dispatch();
 
-        $this->info('All articles have been imported.');
+        $this->info('Import job dispatched.');
     }
 }

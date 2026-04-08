@@ -32,6 +32,8 @@ class NewsApiClient implements ArticleSourceInterface
         /** @var array<int, array<string, string|ArticleSource>> $articles */
         $articles = $response->json('articles');
 
+        $articles = array_filter($articles, fn (array $article) => !empty($article['content']));
+
         return array_map(function (array $article) {
             return [
                 'title' => $article['title'],

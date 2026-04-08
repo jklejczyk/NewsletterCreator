@@ -43,4 +43,8 @@ return [
         'feeds' => explode(',', env('RSS_FEEDS', '')),
     ],
 
+    'openai' => [
+        'key' => env('OPENAI_API_KEY'),
+    ],
+
 ];
