@@ -6,7 +6,5 @@ use App\Domain\Article\Models\Article;
 
 readonly class ArticleImported
 {
-    public function __construct(public Article $article)
-    {
-    }
+    public function __construct(public Article $article) {}
 }

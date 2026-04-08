@@ -10,6 +10,7 @@ use Illuminate\Console\Command;
 class ImportArticlesCommand extends Command
 {
     protected $signature = 'articles:import';
+
     protected $description = 'Import articles from all sources';
 
     public function handle(NewsApiClient $newsApiClient, RssFeedIoClient $rssFeedIoClient): void

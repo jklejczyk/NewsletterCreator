@@ -23,7 +23,7 @@ it('imports articles and fires event', function () {
                     'publishedAt' => '2026-04-07T10:00:00Z',
                     'source' => [
                         'id' => 'test',
-                        'name' => 'Test'
+                        'name' => 'Test',
                     ],
                     'author' => 'Author',
                     'description' => 'Desc',
@@ -34,7 +34,7 @@ it('imports articles and fires event', function () {
     ]);
 
     $client = new NewsApiClient('fake-key');
-    $handler = new ImportArticlesCommandHandler();
+    $handler = new ImportArticlesCommandHandler;
     $handler->handle(new ImportArticlesCommand([$client]));
 
     expect(Article::count())->toBe(1)
@@ -46,8 +46,7 @@ it('imports articles and fires event', function () {
 it('does not create duplicate articles', function () {
     Event::fake();
 
-    Article::factory()->create(['url' =>
-        'https://example.com/article']);
+    Article::factory()->create(['url' => 'https://example.com/article']);
 
     Http::fake([
         'https://newsapi.org/v2/top-headlines*' => Http::response([
@@ -61,7 +60,7 @@ it('does not create duplicate articles', function () {
                     'publishedAt' => '2026-04-07T10:00:00Z',
                     'source' => [
                         'id' => 'test',
-                        'name' => 'Test'
+                        'name' => 'Test',
                     ],
                     'author' => 'Author',
                     'description' => 'Desc',
@@ -72,7 +71,7 @@ it('does not create duplicate articles', function () {
     ]);
 
     $client = new NewsApiClient('fake-key');
-    $handler = new ImportArticlesCommandHandler();
+    $handler = new ImportArticlesCommandHandler;
     $handler->handle(new ImportArticlesCommand([$client]));
 
     expect(Article::count())->toBe(1);

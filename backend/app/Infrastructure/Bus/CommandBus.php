@@ -10,7 +10,7 @@ class CommandBus
 
     public function dispatch(object $command): void
     {
-        $handlerClass = get_class($command) . 'Handler';
+        $handlerClass = get_class($command).'Handler';
 
         $handler = $this->container->make($handlerClass);
         $handler->handle($command);
