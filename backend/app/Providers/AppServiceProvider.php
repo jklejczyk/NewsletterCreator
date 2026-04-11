@@ -6,6 +6,8 @@ use App\Domain\Article\Clients\NewsApiClient;
 use App\Domain\Article\Clients\RssFeedIoClient;
 use App\Domain\Article\Events\ArticleImported;
 use App\Domain\Article\Listeners\ProcessArticleListener;
+use App\Domain\Newsletter\Events\SubscriberRegistered;
+use App\Domain\Newsletter\Listeners\SendSubscriptionConfirmationListener;
 use App\Interfaces\AiClientInterface;
 use App\Services\OpenAiService;
 use FeedIo\Adapter\Http\Client;
@@ -44,6 +46,10 @@ class AppServiceProvider extends ServiceProvider
             fn (string $modelName): string => 'Database\\Factories\\'.class_basename($modelName).'Factory',
         );
 
+        // Article
         Event::listen(ArticleImported::class, ProcessArticleListener::class);
+
+        //Newsletter
+        Event::listen(SubscriberRegistered::class, SendSubscriptionConfirmationListener::class);
     }
 }
