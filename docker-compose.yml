@@ -1,11 +1,14 @@
 services:
   backend:
-    build: ./backend
+    build:
+      context: ./backend
+      args:
+        UID: "${UID:-1000}"
+        GID: "${GID:-1000}"
     ports:
       - "8082:8000"
     volumes:
       - ./backend:/var/www
-      - /var/www/vendor
       - ./backend/.env.docker:/var/www/.env
     depends_on:
       postgres:
@@ -14,11 +17,14 @@ services:
         condition: service_healthy
 
   queue:
-    build: ./backend
+    build:
+      context: ./backend
+      args:
+        UID: "${UID:-1000}"
+        GID: "${GID:-1000}"
     command: php artisan queue:listen --tries=3 --timeout=60
     volumes:
       - ./backend:/var/www
-      - /var/www/vendor
       - ./backend/.env.docker:/var/www/.env
     depends_on:
       postgres:

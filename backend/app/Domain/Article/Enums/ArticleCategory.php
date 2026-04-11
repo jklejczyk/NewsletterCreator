@@ -7,5 +7,5 @@ enum ArticleCategory: string
     case TECHNOLOGY = 'technology';
     case BUSINESS = 'business';
     case SCIENCE = 'science';
-    case OTHER = 'other';
+    case GENERAL = 'general';
 }

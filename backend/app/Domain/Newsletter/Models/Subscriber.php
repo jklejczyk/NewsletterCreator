@@ -2,12 +2,18 @@
 
 namespace App\Domain\Newsletter\Models;
 
+use App\Domain\Article\Enums\ArticleCategory;
 use Database\Factories\SubscriberFactory;
+use Illuminate\Database\Eloquent\Casts\AsEnumCollection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasManyThrough;
+use Illuminate\Support\Carbon;
 
+/**
+ * @property Carbon|null $confirmation_sent_at
+ */
 class Subscriber extends Model
 {
     /** @use HasFactory<SubscriberFactory> */
@@ -15,13 +21,25 @@ class Subscriber extends Model
 
     protected $table = 'subscribers';
 
-    protected $fillable = ['email', 'name', 'preferences', 'is_active', 'confirmed_at'];
-
-    protected $casts = [
-        'preferences' => 'array',
-        'is_active' => 'boolean',
-        'confirmed_at' => 'datetime',
+    protected $fillable = [
+        'email',
+        'name',
+        'preferences',
+        'is_active',
+        'confirmed_at',
+        'confirmation_token',
+        'confirmation_sent_at',
     ];
+
+    protected function casts(): array
+    {
+        return [
+            'preferences' => AsEnumCollection::of(ArticleCategory::class),
+            'is_active' => 'boolean',
+            'confirmed_at' => 'datetime',
+            'confirmation_sent_at' => 'datetime',
+        ];
+    }
 
     /** @return HasMany<NewsletterSend, $this> */
     public function sends(): HasMany
