@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api\V1;
 
+use App\Domain\Newsletter\Commands\ConfirmSubscriptionCommand;
 use App\Domain\Newsletter\Commands\SubscribeCommand;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\V1\SubscribeRequest;
@@ -27,7 +28,12 @@ class SubscriberController extends Controller
 
     public function confirm(string $token, CommandBus $bus): JsonResponse
     {
-        //TODO
+        $bus->dispatch(new ConfirmSubscriptionCommand($token));
+
+        return response()->json(
+            ['Aktywowano konto, można zalogować się na konto.'],
+            200
+        );
     }
 
     public function destroy(int $id, CommandBus $bus): JsonResponse

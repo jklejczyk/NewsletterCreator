@@ -86,3 +86,35 @@ it('rejects unknown preference category', function () {
     ])->assertUnprocessable()
         ->assertJsonValidationErrors(['preferences.0']);
 });
+
+it('confirms subscriber with valid token', function () {
+    $subscriber = Subscriber::factory()->unconfirmed()->inactive()->create([
+        'confirmation_token' => 'valid-token',
+        'confirmation_sent_at' => now(),
+    ]);
+
+    $this->getJson(route('api.v1.subscribers.confirm', ['token' => 'valid-token']))
+        ->assertOk();
+
+    $subscriber->refresh();
+
+    expect($subscriber->is_active)->toBeTrue()
+        ->and($subscriber->confirmed_at)->not->toBeNull();
+});
+
+it('returns 404 when confirmation token does not exist', function () {
+    $this->getJson(route('api.v1.subscribers.confirm', ['token' => 'nonexistent-token']))
+        ->assertNotFound();
+});
+
+it('returns 410 when confirmation token has expired', function () {
+    $ttlHours = config('newsletter.confirmation_ttl_hours');
+
+    Subscriber::factory()->unconfirmed()->inactive()->create([
+        'confirmation_token' => 'expired-token',
+        'confirmation_sent_at' => now()->subHours($ttlHours + 1),
+    ]);
+
+    $this->getJson(route('api.v1.subscribers.confirm', ['token' => 'expired-token']))
+        ->assertStatus(410);
+});
