@@ -20,5 +20,5 @@ class SubscribeCommandHandler
         ]);
 
         event(new SubscriberRegistered($subscriber));
-      }
+    }
 }

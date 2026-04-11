@@ -9,7 +9,6 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\V1\SubscribeRequest;
 use App\Infrastructure\Bus\CommandBus;
 use Illuminate\Http\JsonResponse;
-use Symfony\Component\HttpFoundation\Response;
 
 class SubscriberController extends Controller
 {

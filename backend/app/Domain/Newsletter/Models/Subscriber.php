@@ -34,8 +34,7 @@ class Subscriber extends Model
     protected function casts(): array
     {
         return [
-            'preferences' =>
-                AsEnumCollection::of(ArticleCategory::class),
+            'preferences' => AsEnumCollection::of(ArticleCategory::class),
             'is_active' => 'boolean',
             'confirmed_at' => 'datetime',
             'confirmation_sent_at' => 'datetime',

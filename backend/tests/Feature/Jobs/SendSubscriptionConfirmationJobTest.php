@@ -17,7 +17,6 @@ it('sends subscription confirmation mail to subscriber email', function () {
 
     Mail::assertSent(
         SubscriptionConfirmationMail::class,
-        fn (SubscriptionConfirmationMail $mail) =>
-            $mail->hasTo('test@example.com') && $mail->subscriber->is($subscriber)
+        fn (SubscriptionConfirmationMail $mail) => $mail->hasTo('test@example.com') && $mail->subscriber->is($subscriber)
     );
 });

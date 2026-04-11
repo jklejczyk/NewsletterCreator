@@ -10,5 +10,5 @@ class SendSubscriptionConfirmationListener
     public function handle(SubscriberRegistered $event): void
     {
         SendSubscriptionConfirmationJob::dispatch($event->subscriber);
-      }
+    }
 }

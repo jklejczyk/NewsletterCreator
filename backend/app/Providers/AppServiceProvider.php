@@ -49,7 +49,7 @@ class AppServiceProvider extends ServiceProvider
         // Article
         Event::listen(ArticleImported::class, ProcessArticleListener::class);
 
-        //Newsletter
+        // Newsletter
         Event::listen(SubscriberRegistered::class, SendSubscriptionConfirmationListener::class);
     }
 }

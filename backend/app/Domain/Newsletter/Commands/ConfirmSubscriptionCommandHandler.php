@@ -13,7 +13,7 @@ class ConfirmSubscriptionCommandHandler
     {
         $subscriber = Subscriber::where('confirmation_token', $command->token)->first();
 
-        if (!$subscriber) {
+        if (! $subscriber) {
             throw new ConfirmationTokenInvalidException;
         }
 
