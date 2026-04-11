@@ -118,3 +118,17 @@ it('returns 410 when confirmation token has expired', function () {
     $this->getJson(route('api.v1.subscribers.confirm', ['token' => 'expired-token']))
         ->assertStatus(410);
 });
+
+it('unsubscribes existing subscriber and removes record from database', function () {
+    $subscriber = Subscriber::factory()->create();
+
+    $this->deleteJson(route('api.v1.subscribers.destroy', ['id' => $subscriber->id]))
+        ->assertStatus(200);
+
+    expect(Subscriber::find($subscriber->id))->toBeNull();
+});
+
+it('returns 404 when unsubscribing non-existent subscriber', function () {
+    $this->deleteJson(route('api.v1.subscribers.destroy', ['id' => 999999]))
+        ->assertNotFound();
+});

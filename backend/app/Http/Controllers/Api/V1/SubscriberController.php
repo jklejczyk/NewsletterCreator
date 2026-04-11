@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api\V1;
 
 use App\Domain\Newsletter\Commands\ConfirmSubscriptionCommand;
 use App\Domain\Newsletter\Commands\SubscribeCommand;
+use App\Domain\Newsletter\Commands\UnsubscribeCommand;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\V1\SubscribeRequest;
 use App\Infrastructure\Bus\CommandBus;
@@ -31,13 +32,18 @@ class SubscriberController extends Controller
         $bus->dispatch(new ConfirmSubscriptionCommand($token));
 
         return response()->json(
-            ['Aktywowano konto, można zalogować się na konto.'],
+            ['message' => 'Aktywowano konto, można zalogować się na konto.'],
             200
         );
     }
 
     public function destroy(int $id, CommandBus $bus): JsonResponse
     {
-        //TODO
+        $bus->dispatch(new UnsubscribeCommand($id));
+
+        return response()->json(
+            ['message' => 'Anulowano subskrypcję.'],
+            200
+        );
     }
 }
