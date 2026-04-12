@@ -13,6 +13,7 @@ class ImportArticlesCommandHandler
             $articles = $source->fetch();
 
             foreach ($articles as $articleData) {
+                $articleData['imported_at'] = now();
                 $article = Article::firstOrCreate(['url' => $articleData['url']], $articleData);
 
                 if ($article->wasRecentlyCreated) {

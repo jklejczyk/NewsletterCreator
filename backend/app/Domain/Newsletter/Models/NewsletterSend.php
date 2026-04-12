@@ -14,7 +14,7 @@ class NewsletterSend extends Model
 
     protected $table = 'newsletter_sends';
 
-    protected $fillable = ['newsletter_id', 'subscriber_id', 'sent_at', 'opened_at'];
+    protected $fillable = ['newsletter_id', 'subscriber_id', 'sent_at'];
 
     /** @return BelongsTo<Newsletter, $this> */
     public function newsletter(): BelongsTo

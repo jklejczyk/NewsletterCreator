@@ -6,7 +6,9 @@ use App\Domain\Article\Clients\NewsApiClient;
 use App\Domain\Article\Clients\RssFeedIoClient;
 use App\Domain\Article\Events\ArticleImported;
 use App\Domain\Article\Listeners\ProcessArticleListener;
+use App\Domain\Newsletter\Events\NewsletterCreated;
 use App\Domain\Newsletter\Events\SubscriberRegistered;
+use App\Domain\Newsletter\Listeners\SendNewsletterListener;
 use App\Domain\Newsletter\Listeners\SendSubscriptionConfirmationListener;
 use App\Interfaces\AiClientInterface;
 use App\Services\OpenAiService;
@@ -51,5 +53,6 @@ class AppServiceProvider extends ServiceProvider
 
         // Newsletter
         Event::listen(SubscriberRegistered::class, SendSubscriptionConfirmationListener::class);
+        Event::listen(NewsletterCreated::class, SendNewsletterListener::class);
     }
 }
