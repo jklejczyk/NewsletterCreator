@@ -37,7 +37,7 @@ class NewsletterController extends Controller
 
     public function send(CommandBus $bus): JsonResponse
     {
-        $bus->dispatch(new CreateNewsletterCommand());
+        $bus->dispatch(new CreateNewsletterCommand);
 
         return response()->json(
             ['message' => 'Newsletter dispatch initiated.'],

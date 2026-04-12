@@ -1,6 +1,5 @@
 <?php
 
-use App\Domain\Newsletter\Events\NewsletterCreated;
 use App\Domain\Newsletter\Models\Newsletter;
 use App\Domain\Newsletter\Models\NewsletterSend;
 use App\Domain\Newsletter\Models\Subscriber;
