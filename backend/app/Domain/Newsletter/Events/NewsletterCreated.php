@@ -9,10 +9,7 @@ use Illuminate\Database\Eloquent\Collection;
 readonly class NewsletterCreated
 {
     /**
-     * @param Newsletter $newsletter
-     * @param Collection<int, Article> $articles
+     * @param  Collection<int, Article>  $articles
      */
-    public function __construct(public Newsletter $newsletter, public Collection $articles)
-    {
-    }
+    public function __construct(public Newsletter $newsletter, public Collection $articles) {}
 }

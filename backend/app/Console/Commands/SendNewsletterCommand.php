@@ -17,7 +17,7 @@ class SendNewsletterCommand extends Command
      */
     public function handle(CommandBus $bus): void
     {
-        $bus->dispatch(new CreateNewsletterCommand());
+        $bus->dispatch(new CreateNewsletterCommand);
         $this->info('Newsletter dispatch initiated.');
     }
 }

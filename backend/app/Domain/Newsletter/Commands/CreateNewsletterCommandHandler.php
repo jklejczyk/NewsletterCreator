@@ -15,15 +15,17 @@ class CreateNewsletterCommandHandler
             ->where('imported_at', '>=', now()->subDay())
             ->get();
 
-        if (!$articles->count()) return;
+        if (! $articles->count()) {
+            return;
+        }
 
         $content = '';
         foreach ($articles as $article) {
-            $content .= $article->summary . PHP_EOL;
+            $content .= $article->summary.PHP_EOL;
         }
 
         $newsletter = Newsletter::create([
-            'subject' => 'Twój codzienny newsletter — ' . now()->format('d.m.Y'),
+            'subject' => 'Twój codzienny newsletter — '.now()->format('d.m.Y'),
             'content' => $content,
             'status' => NewsletterStatus::DRAFT,
             'recipient_count' => 0,

@@ -20,7 +20,7 @@ class PersonalizedNewsletterMail extends Mailable
     /**
      * Create a new message instance.
      *
-     * @param Collection<int, Article> $articles
+     * @param  Collection<int, Article>  $articles
      */
     public function __construct(public Newsletter $newsletter, public Subscriber $subscriber, public Collection $articles)
     {

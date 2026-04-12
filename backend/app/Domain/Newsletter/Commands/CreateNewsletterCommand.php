@@ -4,7 +4,5 @@ namespace App\Domain\Newsletter\Commands;
 
 final readonly class CreateNewsletterCommand
 {
-    public function __construct()
-    {
-    }
+    public function __construct() {}
 }

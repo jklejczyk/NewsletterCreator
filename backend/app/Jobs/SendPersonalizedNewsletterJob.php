@@ -9,11 +9,11 @@ use App\Domain\Newsletter\Models\Subscriber;
 use App\Mail\PersonalizedNewsletterMail;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Mail;
-use Illuminate\Database\Eloquent\Collection;
 
 class SendPersonalizedNewsletterJob implements ShouldQueue
 {
@@ -24,19 +24,17 @@ class SendPersonalizedNewsletterJob implements ShouldQueue
     public int $backoff = 60;
 
     /**
-     * @param Newsletter $newsletter
-     * @param Subscriber $subscriber
-     * @param Collection<int, Article> $articles
+     * @param  Collection<int, Article>  $articles
      */
-    public function __construct(private Newsletter $newsletter, private Subscriber $subscriber, private Collection $articles)
-    {
-    }
+    public function __construct(private Newsletter $newsletter, private Subscriber $subscriber, private Collection $articles) {}
 
     public function handle(): void
     {
         $filteredArticles = $this->articles->whereIn('category', $this->subscriber->preferences ?? []);
 
-        if (!$filteredArticles->count()) return;
+        if (! $filteredArticles->count()) {
+            return;
+        }
 
         Mail::to($this->subscriber->email)->send(new PersonalizedNewsletterMail($this->newsletter, $this->subscriber, $filteredArticles));
 
