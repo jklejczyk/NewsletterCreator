@@ -10,9 +10,10 @@ class QueryBus
 
     public function ask(object $query): mixed
     {
-        $handlerClass = get_class($query) . 'Handler';
+        $handlerClass = get_class($query).'Handler';
 
         $handler = $this->container->make($handlerClass);
+
         return $handler->handle($query);
     }
 }
