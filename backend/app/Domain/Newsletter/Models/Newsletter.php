@@ -19,6 +19,7 @@ class Newsletter extends Model
 
     protected $casts = [
         'status' => NewsletterStatus::class,
+        'sent_at' => 'datetime',
     ];
 
     /** @return HasMany<NewsletterSend, $this> */
