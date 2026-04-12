@@ -20,5 +20,7 @@ class Article extends Model
     protected $casts = [
         'category' => ArticleCategory::class,
         'source' => ArticleSource::class,
+        'published_at' => 'datetime',
+        'imported_at' => 'datetime',
     ];
 }

@@ -2,6 +2,7 @@
 
 use App\Domain\Newsletter\Exceptions\ConfirmationTokenExpiredException;
 use App\Domain\Newsletter\Exceptions\ConfirmationTokenInvalidException;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
@@ -17,6 +18,13 @@ return Application::configure(basePath: dirname(__DIR__))
         //
     })
     ->withExceptions(function (Exceptions $exceptions): void {
+        $exceptions->shouldRenderJsonWhen(fn ($request) => $request->is('api/*'));
+
+        $exceptions->render(fn (ModelNotFoundException $e) => response()->json(
+            ['message' => 'Nie znaleziono zasobu.'],
+            404,
+        ));
+
         $exceptions->render(fn (ConfirmationTokenExpiredException $e) => response()->json(
             ['message' => 'Link potwierdzający wygasł. Zarejestruj się ponownie.'],
             410,
