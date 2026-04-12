@@ -6,7 +6,7 @@
 [![codecov](https://codecov.io/gh/jklejczyk/NewsletterCreator/graph/badge.svg)](https://codecov.io/gh/jklejczyk/NewsletterCreator)
 ![PHPStan](https://img.shields.io/badge/PHPStan-level%207-brightgreen)
 
-System agregujacy tresci z zewnetrznych zrodel (RSS, NewsAPI), przetwarzajacy je przez AI (OpenAI) i wysylajacy spersonalizowane newslettery do subskrybentow. Full-stack: Laravel 13 + Vue 3.
+System agregujący treści z zewnętrznych źródeł (RSS, NewsAPI), przetwarzający je przez AI (OpenAI) i wysyłający spersonalizowane newslettery do subskrybentów. Full-stack: Laravel 13 + Vue 3.
 
 [Dokumentacja API (Scramble)](https://jklejczyk.github.io/NewsletterCreator/)
 
@@ -46,7 +46,7 @@ app/
 │       └── Models/          # Subscriber, Newsletter, NewsletterSend
 ├── Http/
 │   ├── Controllers/Api/V1/  # Cienkie kontrolery: walidacja + dispatch
-│   ├── Requests/Api/V1/     # FormRequests z walidacja
+│   ├── Requests/Api/V1/     # FormRequests z walidacją
 │   └── Resources/           # ArticleResource, NewsletterResource, ...
 ├── Infrastructure/
 │   └── Bus/                 # CommandBus (void), QueryBus (returns data)
@@ -65,24 +65,24 @@ app/
 | GET | `/api/v1/subscribers/confirm/{token}` | Potwierdzenie emaila |
 | DELETE | `/api/v1/subscribers/{id}` | Wypisanie z newslettera |
 
-### Artykuly (publiczne)
+### Artykuły (publiczne)
 
 | Metoda | Endpoint | Opis |
 |--------|----------|------|
 | GET | `/api/v1/articles` | Lista z filtrowaniem (`?category`, `?date_from`, `?date_to`) |
-| GET | `/api/v1/articles/{id}` | Szczegoly artykulu |
+| GET | `/api/v1/articles/{id}` | Szczegóły artykułu |
 
 ### Newslettery (auth: Sanctum)
 
 | Metoda | Endpoint | Opis |
 |--------|----------|------|
 | GET | `/api/v1/newsletters` | Historia z filtrowaniem (`?status`, `?date_from`, `?date_to`) |
-| GET | `/api/v1/newsletters/{id}/stats` | Statystyki wysylki z lista odbiorcow |
-| POST | `/api/v1/newsletters/send` | Reczne triggerowanie wysylki |
+| GET | `/api/v1/newsletters/{id}/stats` | Statystyki wysyłki z listą odbiorców |
+| POST | `/api/v1/newsletters/send` | Ręczne triggerowanie wysyłki |
 
-## Glowne flow
+## Główne flow
 
-### Import i przetwarzanie artykulow
+### Import i przetwarzanie artykułów
 ```
 Scheduler (co godzine) → articles:import
   → ImportArticlesJob (kolejka Redis)
@@ -104,16 +104,16 @@ GET /subscribers/confirm/{token} → ConfirmSubscriptionCommandHandler
   → is_active=true, confirmed_at=now
 ```
 
-### Wysylka newslettera
+### Wysyłka newslettera
 ```
 Scheduler (codziennie 8:00) / POST /newsletters/send
   → CreateNewsletterCommandHandler
-    → zbiera przetworzone artykuly z ostatnich 24h
+    → zbiera przetworzone artykuły z ostatnich 24h
     → tworzy Newsletter (status=DRAFT)
     → NewsletterCreated event
       → SendNewsletterListener
         → per aktywny subskrybent: SendPersonalizedNewsletterJob
-          → filtruje artykuly wg preferencji subskrybenta
+          → filtruje artykuły wg preferencji subskrybenta
           → renderuje PersonalizedNewsletterMail
           → tworzy NewsletterSend record
 ```
@@ -125,14 +125,14 @@ Scheduler (codziennie 8:00) / POST /newsletters/send
 git clone git@github.com:jklejczyk/NewsletterCreator.git
 cd NewsletterCreator
 
-# 2. Przygotuj plik srodowiskowy dla Dockera
+# 2. Przygotuj plik środowiskowy dla Dockera
 cp backend/.env.docker.example backend/.env.docker
 # Edytuj backend/.env.docker — ustaw klucze API (OPENAI, NEWSAPI)
 
 # 3. Wystartuj stack
 docker compose up -d
 
-# 4. Zainstaluj zaleznosci PHP (jesli vendor pusty)
+# 4. Zainstaluj zależności PHP (jeśli vendor pusty)
 docker compose run --rm backend composer install
 
 # 5. Uruchom migracje
@@ -140,23 +140,23 @@ docker compose exec backend php artisan migrate
 
 # 6. (Opcjonalnie) Zaseeduj admina
 docker compose exec backend php artisan db:seed --class=AdminSeeder
-# Wyswietli token Sanctum do uzywania z endpointami /newsletters/*
+# Wyświetli token Sanctum do używania z endpointami /newsletters/*
 ```
 
-Aplikacja dostepna pod:
+Aplikacja dostępna pod:
 - **Backend API:** http://localhost:8082/api/v1
 - **Frontend:** http://localhost:5173
 
 ## Admin i autoryzacja
 
-Endpointy `/newsletters/*` wymagaja tokenu Sanctum. Aby go uzyskac:
+Endpointy `/newsletters/*` wymagają tokenu Sanctum. Aby go uzyskać:
 
 ```bash
 docker compose exec backend php artisan db:seed --class=AdminSeeder
 # Output: Admin token: 1|abc123...
 ```
 
-Uzycie tokenu:
+Użycie tokenu:
 
 ```bash
 curl -H "Authorization: Bearer 1|abc123..." http://localhost:8082/api/v1/newsletters
@@ -168,22 +168,22 @@ curl -H "Authorization: Bearer 1|abc123..." http://localhost:8082/api/v1/newslet
 
 | Komenda | Harmonogram | Opis |
 |---------|-------------|------|
-| `articles:import` | Co godzine | Pobiera artykuly z RSS i NewsAPI, kolejkuje przetwarzanie AI |
-| `newsletter:send` | Codziennie o 8:00 | Tworzy newsletter z artykulow z ostatnich 24h i wysyla do subskrybentow |
+| `articles:import` | Co godzinę | Pobiera artykuły z RSS i NewsAPI, kolejkuje przetwarzanie AI |
+| `newsletter:send` | Codziennie o 8:00 | Tworzy newsletter z artykułów z ostatnich 24h i wysyła do subskrybentów |
 
-### Reczne triggerowanie
+### Ręczne triggerowanie
 
 ```bash
-# Import artykulow (odpala ImportArticlesJob na kolejke)
+# Import artykułów (odpala ImportArticlesJob na kolejkę)
 docker compose exec backend php artisan articles:import
 
-# Wysylka newslettera (tworzy newsletter + dispatch jobow per subskrybent)
+# Wysyłka newslettera (tworzy newsletter + dispatch jobów per subskrybent)
 docker compose exec backend php artisan newsletter:send
 
-# Uruchomienie schedulera w trybie dev (odpala komendy wg harmonogramu)
+# Uruchomienie schedulera w trybie dev (odpalą komendy wg harmonogramu)
 docker compose exec backend php artisan schedule:work
 
-# Podglad kolejki (przetwarzane joby)
+# Podgląd kolejki (przetwarzane joby)
 docker compose exec backend php artisan queue:listen
 ```
 
@@ -198,7 +198,7 @@ php artisan test
 # Pojedynczy plik
 ./vendor/bin/pest tests/Feature/Domain/Newsletter/Commands/SubscribeCommandHandlerTest.php
 
-# Filtr po nazwie
+# Filtrowanie po nazwie
 php artisan test --filter=SubscriberController
 
 # PHPStan
