@@ -2,8 +2,7 @@ import { computed, reactive, ref } from 'vue'
 import { subscribe } from '../api'
 import { ApiError, ValidationError, type ValidationErrors } from '@/shared/api/errors'
 import type { SubscribePayload } from '../types'
-
-type Status = 'idle' | 'submitting' | 'success'
+import type {SubmitStatus} from "@/shared/types/status.ts";
 
 function emptyForm(): SubscribePayload {
     return { email: '', name: '', preferences: [] }
@@ -11,7 +10,7 @@ function emptyForm(): SubscribePayload {
 
 export function useSubscribeForm() {
     const formData = reactive<SubscribePayload>(emptyForm())
-    const status = ref<Status>('idle')
+    const status = ref<SubmitStatus>('idle')
     const errors = ref<ValidationErrors>({})
     const generalError = ref<string | null>(null)
 

@@ -44,11 +44,12 @@ export function fromAxiosError(error: AxiosError): Error {
     const data = error.response?.data as { message?: string; errors?: ValidationErrors } | undefined
 
     if (status === 422 && data?.errors) {
-        return new ValidationError(messageForStatus(422), data.errors)
+        return new ValidationError(data.message ?? messageForStatus(422), data.errors)
     }
 
     if (status) {
-        return new ApiError(messageForStatus(status), status)
+        const message = data?.message ?? messageForStatus(status)
+        return new ApiError(message, status)
     }
 
     return new ApiError(messageForStatus(0), 0)

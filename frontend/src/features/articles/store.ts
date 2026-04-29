@@ -3,8 +3,7 @@ import { defineStore } from 'pinia'
 import { fetchArticles } from './api'
 import type {Article, ArticleCategory, ArticleFilters} from './types'
 import type { PaginationMeta } from '@/shared/types/api'
-
-type RequestStatus = 'idle' | 'loading' | 'success' | 'error'
+import type {RequestStatus} from "@/shared/types/status.ts";
 
 export const useArticleStore = defineStore('articles', () => {
     const articles = ref<Article[]>([])

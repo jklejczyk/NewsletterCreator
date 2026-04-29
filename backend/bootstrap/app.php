@@ -1,5 +1,6 @@
 <?php
 
+use App\Domain\Newsletter\Exceptions\AlreadyConfirmedException;
 use App\Domain\Newsletter\Exceptions\ConfirmationTokenExpiredException;
 use App\Domain\Newsletter\Exceptions\ConfirmationTokenInvalidException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
@@ -33,5 +34,10 @@ return Application::configure(basePath: dirname(__DIR__))
         $exceptions->render(fn (ConfirmationTokenInvalidException $e) => response()->json(
             ['message' => 'Nieprawidłowy link potwierdzający.'],
             404,
+        ));
+
+        $exceptions->render(fn (AlreadyConfirmedException $e) => response()->json(
+            ['message' => 'Email został już potwierdzony.'],
+            200,
         ));
     })->create();
