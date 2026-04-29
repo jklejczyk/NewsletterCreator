@@ -11,8 +11,19 @@ import {RouterLink, RouterView} from 'vue-router'
                     Newsletter
                 </RouterLink>
                 <nav class="flex gap-6 text-sm">
-                    <RouterLink to="/" class="hover:text-primary transition-colors">
-                        Strona główna
+                    <RouterLink
+                        to="/"
+                        class="hover:text-primary transition-colors"
+                        active-class="text-primary font-medium"
+                    >
+                        Artykuły
+                    </RouterLink>
+                    <RouterLink
+                        to="/subscribe"
+                        class="hover:text-primary transition-colors"
+                        active-class="text-primary font-medium"
+                    >
+                        Zapisz się
                     </RouterLink>
                 </nav>
             </div>

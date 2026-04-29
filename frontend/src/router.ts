@@ -2,12 +2,16 @@ import {createRouter, createWebHistory, type RouteRecordRaw} from 'vue-router'
 import PublicLayout from '@/layouts/PublicLayout.vue'
 import AdminLayout from '@/layouts/AdminLayout.vue'
 import {articleRoutes} from "@/features/articles/routes.ts";
+import {subscriberRoutes} from "@/features/subscribers/routes.ts";
 
 const routes: RouteRecordRaw[] = [
     {
         path: '/',
         component: PublicLayout,
-        children: [...articleRoutes],
+        children: [
+            ...articleRoutes,
+            ...subscriberRoutes
+        ],
     },
     {
         path: '/admin',
