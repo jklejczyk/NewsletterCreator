@@ -20,5 +20,6 @@ export interface NewsletterFilters {
     status?: NewsletterStatus
     date_from?: string
     date_to?: string
-    per_page?: number
+    per_page?: number,
+    page?: number
 }

@@ -1,0 +1,1 @@
+import{o as s,e as n}from"./index-LD1Bwaem.js";const a=(e,t)=>{const c=e.__vccOpts||e;for(const[o,r]of t)c[o]=r;return c},l={},_={class:"text-2xl"};function i(e,t){return s(),n("div",_,"Newsletter detail (placeholder)")}const f=a(l,[["render",i]]);export{f as default};
