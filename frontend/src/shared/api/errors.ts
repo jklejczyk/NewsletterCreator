@@ -24,22 +24,34 @@ export class ApiError extends Error {
     }
 }
 
+const ERROR_MESSAGES: Record<number, string> = {
+    0: 'Brak połączenia z serwerem. Sprawdź internet i spróbuj ponownie.',
+    401: 'Wymagane uwierzytelnienie.',
+    403: 'Brak uprawnień do wykonania tej akcji.',
+    404: 'Nie znaleziono zasobu.',
+    422: 'Sprawdź wprowadzone dane.',
+    500: 'Wystąpił problem po stronie serwera. Spróbuj za chwilę.',
+    502: 'Serwer chwilowo niedostępny.',
+    503: 'Serwer chwilowo niedostępny.',
+}
+
+function messageForStatus(status: number): string {
+    return ERROR_MESSAGES[status] ?? `Błąd HTTP ${status}.`
+}
+
 export function fromAxiosError(error: AxiosError): Error {
     const status = error.response?.status
-    const data = error.response?.data as {
-        message?: string;
-        errors?: ValidationErrors
-    } | undefined
+    const data = error.response?.data as { message?: string; errors?: ValidationErrors } | undefined
 
     if (status === 422 && data?.errors) {
-        return new ValidationError(data.message ?? 'Validation failed', data.errors)
+        return new ValidationError(messageForStatus(422), data.errors)
     }
 
     if (status) {
-        return new ApiError(data?.message ?? error.message, status)
+        return new ApiError(messageForStatus(status), status)
     }
 
-    return new ApiError(error.message || 'Network error', 0)
+    return new ApiError(messageForStatus(0), 0)
 }
 
 export function isAxiosError(error: unknown): error is
