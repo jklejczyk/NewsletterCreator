@@ -1,32 +1,19 @@
 <script setup lang="ts">
 import type {ArticleCategory} from '@/features/articles/types'
+import {CATEGORY_META} from "@/features/articles/categories.ts";
 
 defineProps<{
     category: ArticleCategory | null
 }>()
-
-const labels: Record<ArticleCategory, string> = {
-    technology: 'Technologia',
-    business: 'Biznes',
-    science: 'Nauka',
-    general: 'Ogólne',
-}
-
-const colors: Record<ArticleCategory, string> = {
-    technology: 'bg-blue-100 text-blue-800',
-    business: 'bg-amber-100 text-amber-800',
-    science: 'bg-emerald-100 text-emerald-800',
-    general: 'bg-slate-100 text-slate-800',
-}
 </script>
 
 <template>
     <span
         v-if="category"
         class="inline-flex items-center px-2 py-0.5 rounded-md text-xs font-medium"
-        :class="colors[category]"
+        :class="CATEGORY_META[category].colorClasses"
     >
-      {{ labels[category] }}
+      {{ CATEGORY_META[category].label }}
     </span>
     <span
         v-else

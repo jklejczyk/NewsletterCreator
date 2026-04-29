@@ -1,7 +1,7 @@
 import { computed, ref } from 'vue'
 import { defineStore } from 'pinia'
 import { fetchArticles } from './api'
-import type { Article, ArticleFilters } from './types'
+import type {Article, ArticleCategory, ArticleFilters} from './types'
 import type { PaginationMeta } from '@/shared/types/api'
 
 type RequestStatus = 'idle' | 'loading' | 'success' | 'error'
@@ -16,7 +16,7 @@ export const useArticleStore = defineStore('articles', () => {
     const isEmpty = computed(() => status.value === 'success' && articles.value.length === 0)
     const hasError = computed(() => status.value === 'error')
 
-    async function fetchList(filters: ArticleFilters = {}) {
+    async function fetchList(filters: ArticleFilters) {
         status.value = 'loading'
         error.value = null
         try {
