@@ -27,7 +27,6 @@ return Application::configure(basePath: dirname(__DIR__))
             404,
         ));
 
-
         $exceptions->render(fn (ModelNotFoundException $e) => response()->json(
             ['message' => 'Nie znaleziono zasobu.'],
             404,
