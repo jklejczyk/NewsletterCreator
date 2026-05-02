@@ -1,0 +1,1 @@
+import{c as e}from"./index-DsFV9kYF.js";async function t(s){return(await e.post("/subscribers",s)).data}async function c(s){return(await e.get(`/subscribers/confirm/${s}`)).data}async function a(s){return(await e.delete(`/subscribers/${s}`)).data}export{c,t as s,a as u};
