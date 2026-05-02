@@ -10,13 +10,13 @@ import {RouterLink, RouterView} from 'vue-router'
                 <p class="text-xs text-muted-foreground mt-1">Newsletter Creator</p>
             </div>
             <nav class="p-4 space-y-1 flex flex-col text-sm">
-                <RouterLink
-                    to="/admin"
-                    class="px-3 py-2 rounded-md hover:bg-muted transition-colors"
-                    active-class="bg-muted font-medium"
-                >
-                    Dashboard
-                </RouterLink>
+<!--                <RouterLink-->
+<!--                    to="/admin"-->
+<!--                    class="px-3 py-2 rounded-md hover:bg-muted transition-colors"-->
+<!--                    active-class="bg-muted font-medium"-->
+<!--                >-->
+<!--                    Dashboard-->
+<!--                </RouterLink>-->
                 <RouterLink
                     to="/admin/newsletters"
                     class="px-3 py-2 rounded-md hover:bg-muted transition-colors"

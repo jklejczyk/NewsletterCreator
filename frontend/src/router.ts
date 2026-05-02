@@ -17,6 +17,7 @@ const routes: RouteRecordRaw[] = [
     {
         path: '/admin',
         component: AdminLayout,
+        redirect: { name: 'newsletter-list' },
         children: [
             ...newsletterRoutes,
         ],
