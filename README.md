@@ -8,6 +8,8 @@
 
 System full-stack (Laravel 13 + Vue 3) agregujący treści z zewnętrznych źródeł (RSS, NewsAPI), przetwarzający je przez AI (OpenAI) i wysyłający spersonalizowane newslettery do subskrybentów. Zawiera publiczny landing z subskrypcją oraz panel administratora do zarządzania wysyłkami.
 
+[Live demo](https://newslettercreator.rozwiazaniawebowe.pl/)
+
 [Dokumentacja API (Scramble)](https://jklejczyk.github.io/NewsletterCreator/)
 
 ## Tech stack
